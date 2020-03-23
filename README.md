@@ -6,15 +6,15 @@ Le domaine est composé de plusieurs machines. On represente tout cela sous la f
 
 ### Les machines:
 
-![Diagramme d'état d'une machine](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/EmileClement/Saph_211_Ethernet/master/asset/etat_machine.uml)
+![Diagramme d'état d'une machine](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/EmileClement/Saph_211_Ethernet/master/asset/etat_machine.uml&fmt=svg)
 
 ### Le domaine:
 
-![Diagramme d'état du domaine](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/EmileClement/Saph_211_Ethernet/master/asset/etat_domaine.uml)
+![Diagramme d'état du domaine](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/EmileClement/Saph_211_Ethernet/master/asset/etat_domaine.uml&fmt=svg)
 
 ## Modélisation informatique:
 
-![Diagramme des Classes](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/EmileClement/Saph_211_Ethernet/master/asset/class.uml)
+![Diagramme des Classes](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/EmileClement/Saph_211_Ethernet/master/asset/class.uml&fmt=svg)
 
 ### test 4
 ## Outils:
