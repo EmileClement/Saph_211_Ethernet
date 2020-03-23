@@ -1,6 +1,7 @@
 @startuml
 
-title Relationships - Class Diagram
+title Diagramme des Classes de notre simmulateur
+
 package "Elements réels" <<Frame>> {
     class Domaine
     class Machine
@@ -10,6 +11,9 @@ package "Representation des états" <<Frame>> {
     abstract Etat
     abstract Etat_Domaine
     abstract Etat_Machine
+    
+    Etat <|-- Etat_Domaine: Inheritance
+    Etat <|-- Etat_Machine: Inheritance
     
     package "Etat du domaine" <<Frame>> {
         Etat_Domaine <|-- Etat_D_Libre: Inheritance
@@ -38,12 +42,9 @@ package "Representation des évenements" <<Frame>>{
     Event <|-- Event_Triger: Inheritance
     Event_Timed <|-- Event_Fin_initial : Inheritance
     Event_Timed <|-- Event_Fin_transmition : Inheritance
+    Event_Timed <|-- Event_Fin_alea : Inheritance
     Event_Triger <|-- Event_Debut_parlant : Inheritance
 }
-Etat <|-- Etat_Domaine: Inheritance
-Etat <|-- Etat_Machine: Inheritance
-Domaine "1" *-- "1" Etat_Domaine: Composition
-Machine "1" *-- "1" Etat_Machine: Composition
 
 Domaine : +time
 Domaine : +machines
@@ -51,30 +52,37 @@ Domaine : +etat
 Domaine : +reagir(Event)
 Domaine : +Events
 Domaine : +goto_next_event()
+Domaine "1" *-- "1" Etat_Domaine: Composition
+Domaine "1" o-- "Many" Event
 
 Machine : +domaine
 Machine : +etat
 Machine : +reagir(Event)
 Machine : +nombre_echec
+Machine "1" *-- "1" Etat_Machine: Composition
 
 Etat : +etat_suivant(Event)
 Etat : +temps_debut
 
 Etat_Machine : +machine
 Etat_Machine : +parlant
+Etat_Machine : +event_fin
 
 Etat_Domaine : +domaine
 Etat_Domaine : +visiblement_libre
 Etat_Domaine : +reelement_libre
 Etat_Domaine : +machines_parlantes[]
-Machine "0..*" o-- "1" Etat_Domaine
+
+Etat_M_Idle "1" *-- "1" Event_Never
+Etat_M_Attente_O "1" *-- "1" Event_Never
+Etat_M_Attente_C "1" *-- "1" Event_Fin_alea
+Etat_M_Initial "1" *-- "1" Event_Fin_initial
+Etat_M_Fin_initial "1" *-- "1" Event_Fin_initial
+Etat_M_Transmition "1" *-- "1" Event_Fin_transmition
 
 Etat_D_Collision : +Nombre_de_parlantes
-Etat_Machine : +event_fin
 
 Event_Timed : +time
-
-Domaine "1" o-- "Many" Event
 
 class Loi
 Machine "many" *-- "1" Loi : Composition
