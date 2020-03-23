@@ -1,6 +1,6 @@
 @startuml
 
-title Diagramme d'etat du dommaine
+title Diagramme d'etat d'une machine
 [*] --> M_Idle
 state join <<join>>
 M_Idle --> join : "Volonté d'envoyer un message"

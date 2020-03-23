@@ -4,11 +4,12 @@ title Relationships - Class Diagram
 package "Elements réels" <<Frame>> {
     class Domaine
     class Machine
+    Domaine "1" *-- "many" Machine: Composition
 }
 package "Representation des états" <<Frame>> {
-    class Etat
-    class Etat_Domaine
-    class Etat_Machine
+    abstract Etat
+    abstract Etat_Domaine
+    abstract Etat_Machine
     
     package "Etat du domaine" <<Frame>> {
         Etat_Domaine <|-- Etat_D_Libre: Inheritance
@@ -28,13 +29,19 @@ package "Representation des états" <<Frame>> {
 }
 
 package "Representation des évenements" <<Frame>>{
-    Class Event
-    Event <|-- Etat_Never: Inheritance
-    Event <|-- Etat_Timed: Inheritance
+    abstract Event
+    class Event_Never
+    abstract Event_Timed
+    abstract Event_Triger
+    Event <|-- Event_Never: Inheritance
+    Event <|-- Event_Timed: Inheritance
+    Event <|-- Event_Triger: Inheritance
+    Event_Timed <|-- Event_Fin_initial : Inheritance
+    Event_Timed <|-- Event_Fin_transmition : Inheritance
+    Event_Triger <|-- Event_Debut_parlant : Inheritance
 }
 Etat <|-- Etat_Domaine: Inheritance
 Etat <|-- Etat_Machine: Inheritance
-Domaine "1" *-up- "many" Machine: Composition
 Domaine "1" *-- "1" Etat_Domaine: Composition
 Machine "1" *-- "1" Etat_Machine: Composition
 
@@ -48,6 +55,7 @@ Domaine : +goto_next_event()
 Machine : +domaine
 Machine : +etat
 Machine : +reagir(Event)
+Machine : +nombre_echec
 
 Etat : +etat_suivant(Event)
 Etat : +temps_debut
@@ -62,6 +70,15 @@ Etat_Domaine : +machines_parlantes[]
 Machine "0..*" o-- "1" Etat_Domaine
 
 Etat_D_Collision : +Nombre_de_parlantes
-
 Etat_Machine : +event_fin
+
+Event_Timed : +time
+
+Domaine "1" o-- "Many" Event
+
+class Loi
+Machine "many" *-- "1" Loi : Composition
+Loi : -distribution
+Loi : +Tir(n_echec)
+
 @enduml
