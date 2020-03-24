@@ -4,7 +4,7 @@ Created on Thu Mar 12 15:43:09 2020
 
 @author: Leopold
 """
-
+#%% Physique
 class Domaine():
     def __init__(self):
         self.time = 0
@@ -25,7 +25,8 @@ class Domaine():
         self.etat.end(self)
         cible.begin(self)
         self.etat = cible
-        
+
+#%% Etat
 class Etat():
     def run(self):
         assert 0, "not implement"
@@ -47,4 +48,5 @@ class Etat_D_Occupe(Etat_Domaine):
 
 class Etat_D_Collison(Etat_Domaine):
 
+#%% events
 DOMAINE = Domaine()

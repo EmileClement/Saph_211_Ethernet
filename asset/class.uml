@@ -1,92 +1,98 @@
 @startuml
 
 title Diagramme des Classes de notre simmulateur
-
-package "Elements réels" <<Frame>> {
-    class Domaine
-    class Machine
-    Domaine "1" *-- "many" Machine: Composition
-}
-package "Representation des états" <<Frame>> {
-    abstract Etat
-    abstract Etat_Domaine
-    abstract Etat_Machine
-    
-    Etat <|-- Etat_Domaine: Inheritance
-    Etat <|-- Etat_Machine: Inheritance
-    
-    package "Etat du domaine" <<Frame>> {
-        Etat_Domaine <|-- Etat_D_Libre: Inheritance
-        Etat_Domaine <|-- Etat_D_Risque: Inheritance
-        Etat_Domaine <|-- Etat_D_Occupe: Inheritance
-        Etat_Domaine <|-- Etat_D_Collision: Inheritance
+package "Modelisation" <<File>>{
+    package "Elements réels" <<Frame>> {
+        class Domaine
+        class Machine
+        Domaine "1" *-- "many" Machine: Composition
+    }
+    package "Representation des états" <<Frame>> {
+        abstract Etat
+        abstract Etat_Domaine
+        abstract Etat_Machine
+        
+        Etat <|-- Etat_Domaine: Inheritance
+        Etat <|-- Etat_Machine: Inheritance
+        
+        package "Etat du domaine" <<Frame>> {
+            Etat_Domaine <|-- Etat_D_Libre: Inheritance
+            Etat_Domaine <|-- Etat_D_Risque: Inheritance
+            Etat_Domaine <|-- Etat_D_Occupe: Inheritance
+            Etat_Domaine <|-- Etat_D_Collision: Inheritance
+        }
+        
+        package "Etat des machines" <<Frame>>{
+            Etat_Machine <|-- Etat_M_Idle: Inheritance
+            Etat_Machine <|-- Etat_M_Attente_O: Inheritance
+            Etat_Machine <|-- Etat_M_Attente_C: Inheritance
+            Etat_Machine <|-- Etat_M_Initial: Inheritance
+            Etat_Machine <|-- Etat_M_Fin_initial: Inheritance
+            Etat_Machine <|-- Etat_M_Transmition: Inheritance
+        }
     }
     
-    package "Etat des machines" <<Frame>>{
-        Etat_Machine <|-- Etat_M_Idle: Inheritance
-        Etat_Machine <|-- Etat_M_Attente_O: Inheritance
-        Etat_Machine <|-- Etat_M_Attente_C: Inheritance
-        Etat_Machine <|-- Etat_M_Initial: Inheritance
-        Etat_Machine <|-- Etat_M_Fin_initial: Inheritance
-        Etat_Machine <|-- Etat_M_Transmition: Inheritance
+    package "Representation des évenements" <<Frame>>{
+        abstract Event
+        class Event_Never
+        abstract Event_Timed
+        abstract Event_Triger
+        Event <|-- Event_Never: Inheritance
+        Event <|-- Event_Timed: Inheritance
+        Event <|-- Event_Triger: Inheritance
+        Event_Timed <|-- Event_Fin_initial : Inheritance
+        Event_Timed <|-- Event_Fin_transmition : Inheritance
+        Event_Timed <|-- Event_Fin_alea : Inheritance
+        Event_Triger <|-- Event_Debut_parlant : Inheritance
+        Event_Triger <|-- Event_Volonte_message : Inheritance
     }
+    
+    Domaine : +time
+    Domaine : -machines
+    Domaine : -etat
+    Domaine : +reagir(Event): None
+    Domaine : +Events
+    Domaine : +goto_next_event(): None
+    Domaine : +visiblement_libre() : Bool
+    Domaine : -reelement_libre() : Bool
+    Domaine "1" *-- "1" Etat_Domaine: Composition
+    Domaine "1" o-- "Many" Event
+    
+    Machine : +domaine
+    Machine : +etat
+    Machine : +reagir(Event): None
+    Machine : +nombre_echec
+    Machine : +parlante(): Bool
+    Machine : longueurs_messages[]
+    Machine "1" *-- "1" Etat_Machine: Composition
+    
+    Etat : +etat_suivant(Event)
+    Etat : +temps_debut
+    
+    Etat_Machine : +machine
+    Etat_Machine : +parlant
+    Etat_Machine : +event_fin
+    
+    Etat_Domaine : +domaine
+    Etat_Domaine : +visiblement_libre
+    Etat_Domaine : +reelement_libre
+    Etat_Domaine : +machines_parlantes[]
+    
+    Etat_M_Idle "1" *-- "1" Event_Never
+    Etat_M_Attente_O "1" *-- "1" Event_Never
+    Etat_M_Attente_C "1" *-- "1" Event_Fin_alea
+    Etat_M_Initial "1" *-- "1" Event_Fin_initial
+    Etat_M_Fin_initial "1" *-- "1" Event_Fin_initial
+    Etat_M_Transmition "1" *-- "1" Event_Fin_transmition
+    
+    Etat_D_Collision : +Nombre_de_parlantes
+    
+    Event_Timed : +time
 }
-
-package "Representation des évenements" <<Frame>>{
-    abstract Event
-    class Event_Never
-    abstract Event_Timed
-    abstract Event_Triger
-    Event <|-- Event_Never: Inheritance
-    Event <|-- Event_Timed: Inheritance
-    Event <|-- Event_Triger: Inheritance
-    Event_Timed <|-- Event_Fin_initial : Inheritance
-    Event_Timed <|-- Event_Fin_transmition : Inheritance
-    Event_Timed <|-- Event_Fin_alea : Inheritance
-    Event_Triger <|-- Event_Debut_parlant : Inheritance
+package "Probabilite" <<File>>{
+    class Loi
+    Machine "many" *-- "1" Loi : Composition
+    Loi : -distribution
+    Loi : +Tir(n_echec)
 }
-
-Domaine : +time
-Domaine : +machines
-Domaine : +etat
-Domaine : +reagir(Event)
-Domaine : +Events
-Domaine : +goto_next_event()
-Domaine "1" *-- "1" Etat_Domaine: Composition
-Domaine "1" o-- "Many" Event
-
-Machine : +domaine
-Machine : +etat
-Machine : +reagir(Event)
-Machine : +nombre_echec
-Machine "1" *-- "1" Etat_Machine: Composition
-
-Etat : +etat_suivant(Event)
-Etat : +temps_debut
-
-Etat_Machine : +machine
-Etat_Machine : +parlant
-Etat_Machine : +event_fin
-
-Etat_Domaine : +domaine
-Etat_Domaine : +visiblement_libre
-Etat_Domaine : +reelement_libre
-Etat_Domaine : +machines_parlantes[]
-
-Etat_M_Idle "1" *-- "1" Event_Never
-Etat_M_Attente_O "1" *-- "1" Event_Never
-Etat_M_Attente_C "1" *-- "1" Event_Fin_alea
-Etat_M_Initial "1" *-- "1" Event_Fin_initial
-Etat_M_Fin_initial "1" *-- "1" Event_Fin_initial
-Etat_M_Transmition "1" *-- "1" Event_Fin_transmition
-
-Etat_D_Collision : +Nombre_de_parlantes
-
-Event_Timed : +time
-
-class Loi
-Machine "many" *-- "1" Loi : Composition
-Loi : -distribution
-Loi : +Tir(n_echec)
-
 @enduml
