@@ -74,9 +74,8 @@ package "Modelisation" <<File>>{
     Etat_Machine : +event_fin
     
     Etat_Domaine : +domaine
-    Etat_Domaine : +visiblement_libre
-    Etat_Domaine : +reelement_libre
-    Etat_Domaine : +machines_parlantes[]
+    Etat_Domaine : +visiblement_libre()
+    Etat_Domaine : +reelement_libre()
     
     Etat_M_Idle "1" *-- "1" Event_Never
     Etat_M_Attente_O "1" *-- "1" Event_Never
