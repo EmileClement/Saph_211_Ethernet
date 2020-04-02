@@ -12,7 +12,7 @@ Les états sont:
 * `Idle` : La machine ne fait rien, elle attend de devoir envoyer un message.
 * `Initial` : La machine commence à emmetre, elle occupe le dommaine sans pour autant que les autres puissent la detecté.
 * `Transmition` : La machine transmet sont message depuis sufisament longtemps pour que toutes les machines aient détécté que le domaine etait occupé.
-* `Attent_O` : La machine attend que le domaine sois libre pour parler.
+* `Attente_O` : La machine attend que le domaine sois libre pour parler.
 * `Fin_initial` : La machine a détécté une collision mais s'assure que toute les autres machines aient détécté la collison.
 * `Attente_C` : La machine attent un temps aléatoire avant de parler.
 
@@ -25,6 +25,22 @@ Les états sont:
 * `Risque` : Une seule machine parle et il n'y a pas encore eu de collision.
 * `Occupe` : Une seule machine parle depuis sufisament longtemps pour que il n'y ais plus de collison.
 * `Collision` : Une collision a eu lieu, on attend que toutes les machines se taisent.
+
+### Les transition:
+
+|     Etat \ Event     	| `Event_Fin_transmition` 	| `Event_Fin_initial` 	| `Event_Fin_alea` 	| `Event_Debut_parlant` 	| `Event_Volonte_msg` 	|   	|   	|
+|:--------------------:	|:-----------------------:	|:-------------------:	|:----------------:	|:---------------------:	|:-------------------:	|:-:	|:-:	|
+|    `Etat_D_Libre`    	|                         	|                     	|                  	|                       	|                     	|   	|   	|
+|    `Etat_D_Risque`   	|                         	|                     	|                  	|                       	|                     	|   	|   	|
+|    `Etat_D_Occupe`   	|                         	|                     	|                  	|                       	|                     	|   	|   	|
+|  `Etat_D_Collision`  	|                         	|                     	|                  	|                       	|                     	|   	|   	|
+|     `Etat_M_Idle`    	|                         	|                     	|                  	|                       	|                     	|   	|   	|
+|     `Etat_M_Idle`    	|                         	|                     	|                  	|                       	|                     	|   	|   	|
+| `Etat_M_Attente_O`   	|                         	|                     	|                  	|                       	|                     	|   	|   	|
+| `Etat_M_Initial`     	|                         	|                     	|                  	|                       	|                     	|   	|   	|
+| `Etat_M_Transmition` 	|                         	|                     	|                  	|                       	|                     	|   	|   	|
+| `Etat_M_Fin_initial` 	|                         	|                     	|                  	|                       	|                     	|   	|   	|
+| `Etat_M_Attente_C`   	|                         	|                     	|                  	|                       	|                     	|   	|   	|
 
 ## Modélisation informatique:
 
