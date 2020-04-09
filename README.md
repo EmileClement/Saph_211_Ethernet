@@ -48,5 +48,8 @@ Les états sont:
 
 ### test 4
 
+## Modelisation des cables
+https://fr.wikipedia.org/wiki/%C3%89quations_des_t%C3%A9l%C3%A9graphistes
+
 ## Outils:
 planttext.com
